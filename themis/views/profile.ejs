@@ -1,0 +1,31 @@
+<%- include('include/_header') %> 
+<div class="container">
+    <div class="profileContainer row">
+        <div class="imageContainer col-md-6">
+            <div class="image">
+                <img src="ava.png" alt="">
+            </div>
+            <form action="">
+                <h3 for="image">Change profile picture</h3>
+                <input type="file" id="image" placeholder="Change profile picture">
+                <input type="submit">
+            </form>
+        </div>
+        <div class="infoContainer col-md-6">
+            <h3>Full name: Nguyen Hoang Anh</h3>
+            <h4>Change password</h4>
+            <form action="">
+                <h6 for="">Old password</h6>
+                <input type="password" placeholder="Old password">
+                <h6 for="">New password</h6>
+                <input type="password" placeholder="New password">
+                <h6 for="">Confirm new password</h6>
+                <input type="password" placeholder="Confirm new password">
+                <br>
+                <br>
+                <input type="submit" value="Change">
+            </form>
+        </div>
+    </div>
+  </div>
+<%- include('include/_footer') %>

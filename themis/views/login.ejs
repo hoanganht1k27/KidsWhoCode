@@ -17,15 +17,15 @@
 
     <div class="container">
         <div class="row">
-            <form action="/login" class="formLogin col-md-6 col-10" method="post">
+            <form action="/login" class="formLogin col-md-6 col-10" method="post" autocomplete="off">
                 <% if (messages.error) {%>
                 <%= messages.error %>
                 <% } %>
                 <h3>Welcome to THEMIS</h3>
                 <label for=""><b>Username</b></label>
-                <input type="text" name="username" placeholder="Username">
+                <input autocomplete="off" type="text" name="username" placeholder="Username">
                 <label for=""><b>Password</b></label>
-                <input type="password" name="password" placeholder="Password">
+                <input autocomplete="off" type="password" name="password" placeholder="Password">
                 <button type="submit">Login</button>
             </form>
         </div>

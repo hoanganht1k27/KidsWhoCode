@@ -1,5 +1,7 @@
 
 
+const Problem = require('../models/Problem')
+
 checkAuthenticatedUser = (req, res, next) => {
     if(req.isAuthenticated()) {
         return next()
@@ -11,8 +13,37 @@ checkNotAuthenticatedUser = (req, res, next) => {
     if(req.isAuthenticated()) {
         res.redirect('/')
     }
-    next()
+    return next()
+}
+
+checkAdminAuthenticatedUser = (req, res, next) => {
+    if(req.isAuthenticated() && req.user.isAdmin) {
+        return next();
+    }
+    res.redirect('/')
+}
+
+addProblemToDB = async (req, res, next) => {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    let mm = today.getMonth() + 1; // Months start at 0!
+    let dd = today.getDate();
+
+    if (dd < 10) dd = '0' + dd;
+    if (mm < 10) mm = '0' + mm;
+
+    const formattedToday = dd + '/' + mm + '/' + yyyy;
+    let p = new Problem({
+        uploaded_at: Date.now(),
+        uploaded_at_nice: formattedToday
+    })
+    await p.save()
+
+    req.problemId = p._id
+    return next()
 }
 
 exports.checkAuthenticatedUser = checkAuthenticatedUser
 exports.checkNotAuthenticatedUser = checkNotAuthenticatedUser
+exports.checkAdminAuthenticatedUser = checkAdminAuthenticatedUser
+exports.addProblemToDB = addProblemToDB

@@ -12,9 +12,6 @@ const connectDB = require('./server/database/connection')
 
 const {checkNotAuthenticatedUser} = require('./server/services/middleware')
 
-const initializePassport = require('./passport-config')
-initializePassport(passport)
-
 const app = express()
 
 dotenv.config({path: 'config.env'})
@@ -41,12 +38,14 @@ connectDB();
 app.use('/css', express.static(path.resolve(__dirname, "assets/css")))
 app.use('/img', express.static(path.resolve(__dirname, "assets/img")))
 app.use('/js', express.static(path.resolve(__dirname, "assets/js")))
+app.use('/' + process.env.SHOW_TEST_DIR_NAME, express.static(path.resolve(__dirname, "assets/" + process.env.SHOW_TEST_DIR_NAME)))
+app.use('/problems', express.static(path.resolve(__dirname, "assets/problems")))
 
-app.post('/login', checkNotAuthenticatedUser, passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login',
-    failureFlash: true
-}))
+// app.post('/login', checkNotAuthenticatedUser, passport.authenticate('local', {
+//     successRedirect: '/',
+//     failureRedirect: '/login',
+//     failureFlash: true
+// }))
 
 app.use('/', require('./server/routes/router'))
 

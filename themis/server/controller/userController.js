@@ -2,22 +2,22 @@
 const User = require('../models/User')
 const {hashPassword} = require('../services/password')
 
-addNewUser = async ({username, fullname, password}) => {
+addNewUser = async ({username, fullname, password, isAdmin}) => {
     hashedPassword = await hashPassword(password)
     let u = new User({
         username: username,
         fullname: fullname,
         password: hashedPassword,
-        avaurl: 'no_ava.png'
+        avaurl: 'no_ava.png',
+        isAdmin: isAdmin
     })
 
-    u.save()
-            .then((user) => {
-                console.log("new user created")
-            })
-            .catch((err) => {
-                console.log(err)
-            })
+    try {
+        let t = await u.save()
+        return t
+    } catch(err) {
+        return 0
+    }
 }
 
 getAllUsers = async () => {
@@ -37,7 +37,33 @@ getUserById = async (userid) => {
     return user
 }
 
+deleteUserById = async (userid) => {
+    let u = await User.deleteOne({'_id': userid})
+
+    return u
+}
+
+deleteUserByUsername = async (username) => {
+    let u = await User.deleteOne({'username': username})
+    
+    return u
+}
+
+resetPasswordByUsername = async (username) => {
+    let u = await User.findOne({'username': username})
+
+    let resetPassword = await hashPassword("1")
+
+    u.password = resetPassword
+
+    let res = await u.save()
+    return res
+    
+}
 exports.addNewUser = addNewUser
 exports.getAllUsers = getAllUsers
 exports.getUserByUsername = getUserByUsername
 exports.getUserById = getUserById
+exports.deleteUserById = deleteUserById
+exports.deleteUserByUsername = deleteUserByUsername
+exports.resetPasswordByUsername = resetPasswordByUsername

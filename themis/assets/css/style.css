@@ -235,3 +235,23 @@ th, td {
 .image img {
     width: 100%;
 }
+
+.textarea {
+    display: block;
+    max-height: 300px;
+    min-height: 200px;
+    overflow: auto;
+    width: 100%;
+}
+
+.errorContainer {
+    font-size: 20px;
+    font-weight: bold;
+    color: red;
+}
+
+.infoContainer {
+    font-size: 20px;
+    font-weight: bold;
+    color: green;
+}

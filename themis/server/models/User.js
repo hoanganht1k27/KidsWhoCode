@@ -3,7 +3,8 @@ const mongoose = require('mongoose')
 let schema = new mongoose.Schema({
     username: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     fullname: {
         type: String,
@@ -13,8 +14,11 @@ let schema = new mongoose.Schema({
         type: String,
         required: true
     },
-    avaur: {
+    avaurl: {
         type: String
+    },
+    isAdmin: {
+        type: Boolean
     }
 })
 
