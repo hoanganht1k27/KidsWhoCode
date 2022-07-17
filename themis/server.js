@@ -36,19 +36,27 @@ connectDB();
 
 // load assets
 app.use('/css', express.static(path.resolve(__dirname, "assets/css")))
-app.use('/img', express.static(path.resolve(__dirname, "assets/img")))
+app.use('/images', express.static(path.resolve(__dirname, "assets/images")))
 app.use('/js', express.static(path.resolve(__dirname, "assets/js")))
 app.use('/' + process.env.SHOW_TEST_DIR_NAME, express.static(path.resolve(__dirname, "assets/" + process.env.SHOW_TEST_DIR_NAME)))
 app.use('/problems', express.static(path.resolve(__dirname, "assets/problems")))
 
-// app.post('/login', checkNotAuthenticatedUser, passport.authenticate('local', {
-//     successRedirect: '/',
-//     failureRedirect: '/login',
-//     failureFlash: true
-// }))
-
 app.use('/', require('./server/routes/router'))
 
-app.listen(port, (req, res) => {
-    console.log(`Our server is live on port ${port}`)
-})
+var server = require("http").Server(app);
+var io = require("socket.io")(server);
+server.listen(port, () => {
+    console.log("Listening on port " + port)
+});
+
+io.on('connection', (socket) => {
+    console.log('a user connected');
+
+    socket.on('disconnect', () => {
+        console.log('user disconnect')
+    })
+
+    socket.on('chat message', (data) => {
+        io.emit('chat message', data)
+    })
+});

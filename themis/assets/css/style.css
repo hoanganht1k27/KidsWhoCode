@@ -135,7 +135,7 @@ td.full_0 {
     background-color: rgb(251, 44, 44);
 }
 
-.messageContainer.everyone {
+.messageContainer {
     overflow: hidden;
     max-width: 80%;
     margin-bottom: 20px;
@@ -148,6 +148,12 @@ td.full_0 {
 
 .mine {
     float: right;
+}
+
+.messageContentMe {
+    background: #5cc7d8;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .avaContainer {
@@ -187,7 +193,7 @@ img.avatar {
     overflow: auto;
 }
 
-form.messageForm {
+.messageForm {
     margin-top: 20px;
     overflow: hidden;
 }
@@ -197,9 +203,13 @@ input.messageInput {
     float: left;
 }
 
-input.messageSubmit {
+.messageSubmit {
     width: 100px;
     float: left;
+}
+
+.messageSubmit:hover {
+    background-color: #5cc7d8;
 }
 
 .rankContainer {

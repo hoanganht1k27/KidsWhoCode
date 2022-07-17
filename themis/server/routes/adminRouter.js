@@ -51,7 +51,21 @@ route.post('/add', checkAdminAuthenticatedUser, async (req, res) => {
 
     let r = await addUsers(arr)
 
-    res.send(r)
+    let errorMessage = ""
+
+    for(let i = 0; i < r.length; i++) {
+        if(r[i].error) {
+            errorMessage += r[i].username + ', '
+        }
+    }
+
+    if(errorMessage != "") {
+        req.flash('error', 'Cannot add users: ' + errorMessage)
+        res.redirect('/admin')
+    } else {
+        req.flash('info', "All users added")
+        res.redirect('/admin')
+    }
 })
 
 route.post('/delete', checkAdminAuthenticatedUser, async (req, res) => {
@@ -59,7 +73,8 @@ route.post('/delete', checkAdminAuthenticatedUser, async (req, res) => {
 
     let r = await deleteUsers(arr)
 
-    res.send(r)
+    req.flash('info', 'Users deleted')
+    res.redirect('/admin')
 })
 
 route.post('/reset', checkAdminAuthenticatedUser, async (req, res) => {
@@ -67,7 +82,8 @@ route.post('/reset', checkAdminAuthenticatedUser, async (req, res) => {
 
     let r = await resetUsers(arr)
 
-    res.send(r)
+    req.flash('info', 'Users reset successfully')
+    res.redirect('/admin')
 })
 
 route.post('/upload-problem', addProblemToDB, upload.single('problem'), async (req, res, next) => {

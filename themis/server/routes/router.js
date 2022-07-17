@@ -23,12 +23,6 @@ route.post('/login', checkNotAuthenticatedUser, passport.authenticate('local', {
     failureFlash: true
 }))
 
-route.post('/register', checkNotAuthenticatedUser, async (req, res) => {
-    addNewUser(req.body);
-    // res.redirect('/login')
-    res.send("fuck")
-})
-
 route.get('/allusers', async (req, res) => {
     let users = await getAllUsers()
     res.send(users)
@@ -47,6 +41,10 @@ route.delete('/delete', async (req, res) => {
     let t = await deleteUserById(req.body.id)
     res.send(t)
 })
+
+route.use('/profile', checkAuthenticatedUser, require('./profileRouter'))
+
+route.use('/chat', checkAuthenticatedUser, require('./chatRouter'))
 
 route.use('/admin', require('./adminRouter'))
 
