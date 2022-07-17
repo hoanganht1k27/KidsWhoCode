@@ -3,21 +3,24 @@
       <!-- Home -->
       <div class="container home">
             <div class="row">
+                <div class="col-12">
+                    <div class="errorContainer">
+                        <% if (messages.error) { %>
+                            <p><%= messages.error %></p>
+                        <% } %>
+                    </div>
+
+                    <div class="infoContainer">
+                        <% if (messages.info) { %>
+                            <p><%= messages.info %></p>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-7">
                     <h2>Problems</h2>
                     <ul class="problemsListContainer">
-                        <!-- <li>
-                            <a href="#" class="problemName">Problem 1 --- 13/7/2022</a>
-                        </li>
-                        <li>
-                            <a href="#" class="problemName">Problem 1 --- 13/7/2022</a>
-                        </li>
-                        <li>
-                            <a href="#" class="problemName">Problem 1 --- 13/7/2022</a>
-                        </li>
-                        <li>
-                            <a href="#" class="problemName">Problem 1 --- 13/7/2022</a>
-                        </li> -->
                         <% for( let i = 0; i < problems.length; i++ ) { %>
                             <li>
                                 <a target="_blank" href="/problems/<%=problems[i].path%>"><%=problems[i].name%> -- <%=problems[i].uploaded_at_nice%></a>
@@ -27,18 +30,6 @@
 
                     <h2>Tests</h2>
                     <ul class="problemsListContainer">
-                        <!-- <li>
-                            <a href="#" class="problemName">Problem 1 --- 13/7/2022</a>
-                        </li>
-                        <li>
-                            <a href="#" class="problemName">Problem 1 --- 13/7/2022</a>
-                        </li>
-                        <li>
-                            <a href="#" class="problemName">Problem 1 --- 13/7/2022</a>
-                        </li>
-                        <li>
-                            <a href="#" class="problemName">Problem 1 --- 13/7/2022</a>
-                        </li> -->
                         <% for( let i = 0; i < showedtests.length; i++ ) { %>
                             <% for( let j = 0; j < showedtests[i].testfiles.length; j++ ) { %>
                                 <li>
@@ -53,37 +44,53 @@
                     <div class="submitContainer">
                         <div class="codeEditContainer">
                             <textarea name="codeEdit" id="codeEdit" class="codeEdit"></textarea>
-                            <form action="" class="submitFormContainer">
-                                <input type="file">
-                                <select name="cars" id="problem">
-                                    <option value="123">Problem 1</option>
-                                    <option value="123">Problem 1</option>
-                                    <option value="123">Problem 1</option>
-                                    <option value="123">Problem 1</option>
-                                    <option value="123">Problem 1</option>
+                            <form action="/submit/submit" class="submitFormContainer" method="post" enctype="multipart/form-data">
+                                <select name="problemId" id="problem">
+                                    <!-- <option value="123">Problem 1</option> -->
+                                    <% for( let i = 0; i < problems.length; i++ ) { %>
+                                        <option value="<%=problems[i]._id%>"><%=problems[i].name%></option>
+                                    <% } %>
                                   </select>
+                                <input type="file" required name="submitfile">
                                 <input type="submit">
                             </form>
                         </div> 
                         <div class="submittedContainer">
                             <h4>Submitted</h4>
                             <ul class="problemsListContainer submittedList">
-                                <li class="full_100">
+                                <!-- <li class="full_100">
                                     Problem 1
                                     <span class="score">100</span>
-                                </li>
-                                <li class="full_0">
-                                    Problem 2
-                                    <span class="score">0</span>
-                                </li>
-                                <li class="full_70">
-                                    Problem 3
-                                    <span class="score">70</span>
-                                </li>
-                                <li class="full_50">
-                                    Problem 4
-                                    <span class="score">50</span>
-                                </li>
+                                </li> -->
+                                <% for( let i = 0; i < submittedProblems.length; i++ ) { %>
+                                    <li type="button" class="<%=submittedProblems[i].classOfScore%>" data-toggle="modal" data-target="#<%=submittedProblems[i].problemId%>">
+                                        <%= submittedProblems[i].name %>
+
+                                        <span class="score"><%=submittedProblems[i].score%></span>
+                                    </li>
+    
+                                    <div class="modal fade" id="<%=submittedProblems[i].problemId%>" tabindex="-1" aria-labelledby="<%=submittedProblems[i].problemId%>Label" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title" id="<%=submittedProblems[i].problemId%>Label">Logs of problem <%=submittedProblems[i].name%></h5>
+                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                              </button>
+                                            </div>
+                                            <div class="modal-body">
+                                              <p>Status: <%=submittedProblems[i].status%></p>
+                                              <p>Score: <%=submittedProblems[i].score%>/<%=submittedProblems[i].fullScore%></p>
+                                              <p>Logs:</p>
+                                              <%=submittedProblems[i].logs%>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                <% } %>
                             </ul>
                         </div>                       
                     </div>

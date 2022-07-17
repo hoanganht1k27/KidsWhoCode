@@ -11,7 +11,7 @@ const {checkAdminAuthenticatedUser, addProblemToDB} = require('../services/middl
 const {processInputForAdd, processInputForDelete, processInputForReset} = require('../services/admin')
 const {addUsers, deleteUsers} = require('../controller/adminController')
 const {getAllUsers} = require('../controller/userController')
-const {updateProblemPath, getAllProblems, makeDir, getProblemInfo, deleteProblem} = require('../services/problem')
+const {updateProblemPath, getAllProblems, makeDir, getProblemInfo, deleteProblem, addSettingToProblem, getAllRankProblems} = require('../services/problem')
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -38,7 +38,16 @@ const uploadTest = multer({storage: storage2})
 
 route.get('/', checkAdminAuthenticatedUser, async (req, res) => {
     let p = await getAllProblems()
-    res.render('admin', {fullname: req.user.fullname, isAdmin: req.user.isAdmin, problems: p})
+    let rp = await getAllRankProblems()
+    console.log(rp)
+    let r = []
+    if(rp) {
+        for(let i = 0; i < rp.length; i++) {
+            let p = await getProblem(rp[i])
+            r.push(p)
+        }
+    }
+    res.render('admin', {fullname: req.user.fullname, isAdmin: req.user.isAdmin, problems: p, rankproblems: r})
 })
 
 route.get('/allusers', checkAdminAuthenticatedUser, async (req, res) => {
@@ -87,12 +96,14 @@ route.post('/reset', checkAdminAuthenticatedUser, async (req, res) => {
 })
 
 route.post('/upload-problem', addProblemToDB, upload.single('problem'), async (req, res, next) => {
-    updateProblemPath(req.problemId, req.file.filename, req.body.problemname)
+    updateProblemPath(req.problemId, req.file.filename, req.body.problemname, req.body.timeEachTest, req.body.scoreEachTest)
         .then(() => {
+            addSettingToProblem(req.problemId, req.body.timeEachTest, req.body.scoreEachTest)
             req.flash('info', 'Upload problem successfully')
             res.redirect('/admin')
         })
         .catch((e) => {
+            console.log(e)
             req.flash('error', 'Upload problem failed')
             res.redirect('/admin')
         })
@@ -139,6 +150,20 @@ route.post('/show-test', checkAdminAuthenticatedUser, (req, res) => {
 
         res.redirect('/admin')
     })
+})
+
+route.post('/delete-test', checkAdminAuthenticatedUser, (req, res) => {
+    let {problemId, testfilename} = req.body
+    let oldPath = path.join(process.env.UPLOAD_TEST_DIR, problemId, testfilename)
+
+    try {
+        fs.unlinkSync(oldPath)
+        req.flash('info', 'Delete test successfully')
+        res.redirect('/admin')
+    } catch {
+        req.flash('error', 'Delete test failed')
+        res.redirect('/admin')
+    }
 })
 
 module.exports = route

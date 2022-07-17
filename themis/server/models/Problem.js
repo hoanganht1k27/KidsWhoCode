@@ -12,6 +12,14 @@ let schema = new mongoose.Schema({
     },
     path: {
         type: String
+    },
+    timeEachTest: {
+        type: Number,
+        min: 1000,
+        max: 5000
+    },
+    scoreEachTest: {
+        type: Number
     }
 })
 
