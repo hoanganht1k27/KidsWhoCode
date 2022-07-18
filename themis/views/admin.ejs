@@ -4,7 +4,7 @@
       <!-- Home -->
       <div class="container home">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 admin-12">
                     <div class="errorContainer">
                         <% if (messages.error) { %>
                             <p><%= messages.error %></p>
@@ -17,7 +17,7 @@
                         <% } %>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12 admin-12">
                     <h2>Admin page</h2>
                     <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#alluser">
                         Get all users
@@ -133,7 +133,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12">
+                <div class="col-12 admin-12">
                     <h3>Upload a problem</h3>
                     <form action="/admin/upload-problem" method="post" enctype="multipart/form-data">
                         <div class="form-group">
@@ -154,7 +154,7 @@
                       </form>
                 </div>
 
-                <div class="col-12">
+                <div class="col-12 admin-12">
                     <h3>Upload tests for a problem</h3>
                     <form action="/admin/upload-test" method="post" enctype="multipart/form-data">
                         <div class="form-group">
@@ -176,7 +176,7 @@
                       </form>
                 </div>
 
-                <div class="col-12">
+                <div class="col-12 admin-12">
                     <h3>Delete a problem</h3>
                     <form action="/admin/delete-problem" method="post">
                         <select name="problemId" required>
@@ -191,7 +191,7 @@
                     </form>
                 </div>
 
-                <div class="col-12">
+                <div class="col-12 admin-12">
                     <h3>See all problems and tests information</h3>
                     <ul>
                         <% for( let i = 0; i < problems.length; i++ ) { %>
@@ -205,7 +205,7 @@
                     </ul>
                 </div>
 
-                <div class="col-12">
+                <div class="col-12 admin-12">
                     <h3>Show some tests of a problem (See info above to get the correct test filename)</h3>
                     <form action="/admin/show-test" method="post">
                         <select name="problemId" required>
@@ -225,7 +225,7 @@
                     </form>
                 </div>
 
-                <div class="col-12">
+                <div class="col-12 admin-12">
                     <h3>Delete some tests that are currently available (See tests in the home page to get the correct filename)</h3>
                     <form action="/admin/delete-test" method="post">
                         <select name="problemId" required>
@@ -245,7 +245,7 @@
                     </form>
                 </div>
 
-                <div class="col-12">
+                <div class="col-12 admin-12">
                     <h3>All problems will be shown in rank</h3>
                     <ul>
                         <% for( let i = 0; i < rankproblems.length; i++ ) { %>
@@ -254,7 +254,7 @@
                     </ul>
                 </div>
 
-                <div class="col-12">
+                <div class="col-12 admin-12">
                     <h3>Add problem to rank</h3>
                     <form action="/add-to-rank" method="post">
                         <select name="problemId" >

@@ -63,32 +63,14 @@
                                     <span class="score">100</span>
                                 </li> -->
                                 <% for( let i = 0; i < submittedProblems.length; i++ ) { %>
-                                    <li type="button" class="<%=submittedProblems[i].classOfScore%>" data-toggle="modal" data-target="#<%=submittedProblems[i].problemId%>">
+                                    <li type="button" class="<%=submittedProblems[i].classOfScore%> submittedEach" problemId="<%=submittedProblems[i].problemId%>">
                                         <%= submittedProblems[i].name %>
 
                                         <span class="score"><%=submittedProblems[i].score%></span>
                                     </li>
-    
-                                    <div class="modal fade" id="<%=submittedProblems[i].problemId%>" tabindex="-1" aria-labelledby="<%=submittedProblems[i].problemId%>Label" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                          <div class="modal-content">
-                                            <div class="modal-header">
-                                              <h5 class="modal-title" id="<%=submittedProblems[i].problemId%>Label">Logs of problem <%=submittedProblems[i].name%></h5>
-                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                              </button>
-                                            </div>
-                                            <div class="modal-body">
-                                              <p>Status: <%=submittedProblems[i].status%></p>
-                                              <p>Score: <%=submittedProblems[i].score%>/<%=submittedProblems[i].fullScore%></p>
-                                              <p>Logs:</p>
-                                              <%=submittedProblems[i].logs%>
-                                            </div>
-                                            <div class="modal-footer">
-                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            </div>
-                                          </div>
-                                        </div>
+
+                                    <div class="submittedLog" style="display: none;" problemName="<%=submittedProblems[i].name%>" problemId="<%=submittedProblems[i].problemId%>" status="<%=submittedProblems[i].status%>" score="<%=submittedProblems[i].score%>/<%=submittedProblems[i].fullScore%>">
+                                        <%=submittedProblems[i].logs%>
                                     </div>
                                 <% } %>
                             </ul>
@@ -98,6 +80,32 @@
             </div>
       </div>
 
+      <!-- Button trigger modal -->
+<button type="button" id="showLog" class="btn btn-primary" style="display: none" data-toggle="modal" data-target="#showLogModal">
+    Launch demo modal
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="showLogModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="showLogModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="showLogBody">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <%- include('include/_footer') %>
+<script src="js/index.js"></script>
 </body>
 </html>

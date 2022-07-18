@@ -184,8 +184,7 @@ def putToLogs(problemId, userId, statusCompile):
 def resToLogs(res):
     s = ""
     for r in res:
-        s += '<p>' + r['input'] + ': ' + r['status'] + '</p>'
-    
+        s += '\n' + r['input'] + ': ' + r['status'] + '\n'
     return s
 
 def deleteOldResults(problemId, userId):

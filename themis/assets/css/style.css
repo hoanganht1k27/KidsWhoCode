@@ -16,6 +16,7 @@
 a.logo {
     font-size: 40px;
     color: black;
+    font-family: 'Proza Libre', sans-serif;
 }
 
 a.logo:hover {
@@ -264,4 +265,20 @@ th, td {
     font-size: 20px;
     font-weight: bold;
     color: green;
+}
+
+.admin-12 {
+    background: #efefef;
+    border: 1px solid grey;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+textarea.showLogText {
+    display: block;
+    width: 100%;
+    max-height: 300px;
+    min-height: 200px;
+    overflow: auto;
 }
