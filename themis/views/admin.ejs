@@ -134,137 +134,81 @@
                     </div>
                 </div>
                 <div class="col-12 admin-12">
-                    <h3>Upload a problem</h3>
+                    <h3>Add new contest</h3>
+                    <form action="/admin/upload-contest" method="post">
+                        <div class="form-group">
+                          <label for="">Contest name</label>
+                          <input type="text" name="contestname" placeholder="Contest name" class="form-control">
+                          <br>
+                          <label for="">Contest password</label>
+                          <input type="password" name="contestpassword" placeholder="Contest password" class="form-control">
+                          <br>
+                          <label for="">Start or stop contest</label>
+                          <br>
+                          <input type="radio" name="start" value="1" required>
+                          <label for="">Start</label>
+                          <br>
+                          <input type="radio" name="start" value="0" required>
+                          <label for="">Stop</label>
+                          <br>
+                          <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="col-12 admin-12">
+                    <h3>All contests</h3>
+                    <ul>
+                        <% for( let i = 0; i < contests.length; i++ ) { %>
+                            <li>
+                                <a href="./admin/contest/<%=contests[i]._id%>"><%=contests[i].name%></a>
+                            </li>
+                        <% } %>
+                    </ul>
+                </div>
+                
+                <div class="col-12 admin-12">
+                    <h3>Add problem</h3>
                     <form action="/admin/upload-problem" method="post" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label for="">Problem name</label>
-                          <input type="text" name="problemname" placeholder="Problem name" class="form-control">
+                          <h4 for="">Problem name</h4>
+                          <input type="text" name="problemname" placeholder="Problem name" class="form-control" required>
                           <br>
-                          <label>Set time limit each test (ms)</label>
-                          <input type="number" placeholder="Time limit (ms)" name="timeEachTest" min="1000" max="5000">
                           <br>
-                          <label for="">Set score for each test</label>
-                          <input type="number" placeholder="Score each test" name="scoreEachTest">
+                          <h4>Set time limit each test (ms)</h4>
+                          <input type="number" placeholder="Time limit (ms)" name="timeEachTest" min="1000" max="5000" required>
                           <br>
-                          <label for="">Upload problem file</label>
-                          <input type="file" class="form-control-file" id="problemform" name="problem">
-                          <br>                          
-                          <button type="submit" class="btn btn-primary">Upload</button>
+                          <br>
+                          <h4 for="">Set score for each test</h4>
+                          <input type="number" placeholder="Score each test" name="scoreEachTest" required>
+                          <br>
+                          <br>
+                          <h4 for="">Problem belongs to which contest</h4>
+                          <select name="contestid" required>
+                            <% for( let i = 0; i < contests.length; i++ ) { %>
+                                <option value="<%=contests[i]._id%>"><%=contests[i].name%></option>
+                            <% } %>
+                          </select>
+                          <br>
+                          <br>
+                          <h4 for="">Upload problem file</h4>
+                          <input type="file" class="form-control-file" name="problem" required>
+                          <br>
+                          <br> 
+                          <h4 for="">Upload problem solution file</h4>
+                          <input type="file" class="form-control-file" name="solution" required>
+                          <br>
+                          <br> 
+                          <h4 for="">Upload tests for this problem</h4>  
+                          <input type="file" class="form-control-file" name="tests" multiple required>
+                          <br>
+                          <br>
+                          <button type="submit" class="btn btn-primary">Upload problem</button>
                         </div>
                       </form>
                 </div>
 
-                <div class="col-12 admin-12">
-                    <h3>Upload tests for a problem</h3>
-                    <form action="/admin/upload-test" method="post" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="">Select problem</label>
-                            <select name="problemId" id="problemfortest" required>
-                                <% for( let i = 0; i < problems.length; i++ ) { %>
-                                    <% if (problems[i].name) { %>
-                                        <option value=<%=problems[i]._id%>><%=problems[i].name%></option>
-                                    <% } %>
-                                    
-                                <% } %>
-                            </select>
-                            <br>
-                          <label for="problemform">Upload tests</label>
-                          <input type="file" class="form-control-file" id="problemform" name="tests" multiple>
-                          <br>
-                          <button type="submit" class="btn btn-primary">Upload</button>
-                        </div>
-                      </form>
-                </div>
-
-                <div class="col-12 admin-12">
-                    <h3>Delete a problem</h3>
-                    <form action="/admin/delete-problem" method="post">
-                        <select name="problemId" required>
-                            <% for( let i = 0; i < problems.length; i++ ) { %>
-                                <% if (problems[i].name) { %>
-                                    <option value=<%=problems[i]._id%>><%=problems[i].name%></option>
-                                <% } %>
-                                
-                            <% } %>
-                        </select>
-                        <button class="btn btn-danger" type="submit">Delete</button>
-                    </form>
-                </div>
-
-                <div class="col-12 admin-12">
-                    <h3>See all problems and tests information</h3>
-                    <ul>
-                        <% for( let i = 0; i < problems.length; i++ ) { %>
-                            <% if (problems[i].name) { %>
-                                <li>
-                                    <a href="/admin/problem/<%=problems[i]._id %>"><%=problems[i].name%></a>
-                                </li>
-                            <% } %>
-                            
-                        <% } %>
-                    </ul>
-                </div>
-
-                <div class="col-12 admin-12">
-                    <h3>Show some tests of a problem (See info above to get the correct test filename)</h3>
-                    <form action="/admin/show-test" method="post">
-                        <select name="problemId" required>
-                            <!-- <option value="volvo">Volvo</option>
-                            <option value="saab">Saab</option>
-                            <option value="mercedes">Mercedes</option>
-                            <option value="audi">Audi</option> -->
-                            <% for( let i = 0; i < problems.length; i++ ) { %>
-                                <% if (problems[i].name) { %>
-                                    <option value=<%=problems[i]._id%>><%=problems[i].name%></option>
-                                <% } %>
-                                
-                            <% } %>
-                        </select>
-                        <input type="text" placeholder="Test filename to show" name="testfilename">
-                        <button class="btn btn-primary">Show test</button>
-                    </form>
-                </div>
-
-                <div class="col-12 admin-12">
-                    <h3>Delete some tests that are currently available (See tests in the home page to get the correct filename)</h3>
-                    <form action="/admin/delete-test" method="post">
-                        <select name="problemId" required>
-                            <!-- <option value="volvo">Volvo</option>
-                            <option value="saab">Saab</option>
-                            <option value="mercedes">Mercedes</option>
-                            <option value="audi">Audi</option> -->
-                            <% for( let i = 0; i < problems.length; i++ ) { %>
-                                <% if (problems[i].name) { %>
-                                    <option value=<%=problems[i]._id%>><%=problems[i].name%></option>
-                                <% } %>
-                                
-                            <% } %>
-                        </select>
-                        <input type="text" placeholder="Test filename to delete" name="testfilename">
-                        <button class="btn btn-danger">Delete test</button>
-                    </form>
-                </div>
-
-                <div class="col-12 admin-12">
-                    <h3>All problems will be shown in rank</h3>
-                    <ul>
-                        <% for( let i = 0; i < rankproblems.length; i++ ) { %>
-                            <a href="/admin/problem/<%=rankproblems[i]._id %>"><%=rankproblems[i].name%></a>
-                        <% } %>
-                    </ul>
-                </div>
-
-                <div class="col-12 admin-12">
-                    <h3>Add problem to rank</h3>
-                    <form action="/add-to-rank" method="post">
-                        <select name="problemId" >
-                            <% for( let i = 0; i < problems.length; i++ ) { %>
-                                <option value=<%=problems[i]._id%>><%=problems[i].name%></option>
-                            <% } %>
-                        </select>
-                        <button type="submit" class="btn btn-primary">Add</button>
-                    </form>
-                </div>
+                
             </div>
       </div>
     

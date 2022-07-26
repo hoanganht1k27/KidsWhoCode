@@ -20,6 +20,12 @@ let schema = new mongoose.Schema({
     },
     scoreEachTest: {
         type: Number
+    },
+    contestId: {
+        type: String
+    },
+    solFile: {
+        type: Boolean
     }
 })
 

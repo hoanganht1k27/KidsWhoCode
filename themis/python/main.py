@@ -90,7 +90,10 @@ def prepareToJudge(toJudge):
     # compile the file if cpp file
     try:
         targetExecutePath = targetPath[:-(len(fileExtension) + 1)] + '.exe'
-        s = 'g++ ' + targetPath + ' -o ' + targetExecutePath
+        if fileExtension == 'cpp':
+            s = 'g++ ' + targetPath + ' -o ' + targetExecutePath
+        else:
+            s = 'gcc ' + targetPath + ' -o ' + targetExecutePath
         kt = os.system(s)
         if kt == 0:
             print("Compile succeed")
@@ -129,6 +132,9 @@ def getInputFiles(problemId):
     t = listdir('./tests/' + problemId)
     try:
         t.remove('sol.exe')
+    except:
+        pass
+    try:
         t.remove('sol.cpp')
         t.remove('setup.json')
     except:

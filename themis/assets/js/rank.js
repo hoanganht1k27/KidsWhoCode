@@ -6,7 +6,7 @@ $.get('/allusers', (data) => {
     users = data
 })
 
-$.get('/allproblems', (data) => {
+$.get('/allrankproblems', (data) => {
     problems = data
 })
 
@@ -28,7 +28,7 @@ function renderRank() {
         html += `<tr><td>${i + 1}</td><td>${a[i].fullname}</td><td>${a[i].sum}</td>`
         for(let j = 0; j < problems.length; j++) {
             let p = problems[j]
-            if(a[i][p._id].classOfScore)
+            if(a[i][p._id].classOfScore && a[i][p._id].score != undefined)
             html += `<td class="${a[i][p._id].classOfScore}">${a[i][p._id].score}</td>`
             else
             html += `<td></td>`
@@ -43,7 +43,7 @@ function renderRank() {
 function loadRank() {
     $.get('/allusers', (data) => {
         users = data
-        $.get('/allproblems', async (data) => {
+        $.get('/allrankproblems', async (data) => {
             problems = data
             let b = []
             for(let i = 0; i < users.length; i++) {

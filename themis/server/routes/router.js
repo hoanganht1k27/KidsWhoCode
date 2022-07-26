@@ -47,6 +47,7 @@ route.get('/allrankproblems', async (req, res) => {
     let r = []
     for(let i = 0; i < rankProblems.length; i++) {
         let p = await getProblem(rankProblems[i])
+        if(p)
         r.push(p)
     }
 

@@ -39,7 +39,7 @@ addProblemToDB = async (req, res, next) => {
     })
     await p.save()
 
-    req.problemId = p._id
+    req.problemId = p._id.toString()
     return next()
 }
 

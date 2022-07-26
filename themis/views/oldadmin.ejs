@@ -1,0 +1,273 @@
+
+<%- include('include/_header') %>
+
+<!-- Home -->
+<div class="container home">
+      <div class="row">
+          <div class="col-12 admin-12">
+              <div class="errorContainer">
+                  <% if (messages.error) { %>
+                      <p><%= messages.error %></p>
+                  <% } %>
+              </div>
+
+              <div class="infoContainer">
+                  <% if (messages.info) { %>
+                      <p><%= messages.info %></p>
+                  <% } %>
+              </div>
+          </div>
+          <div class="col-12 admin-12">
+              <h2>Admin page</h2>
+              <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#alluser">
+                  Get all users
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="alluser" tabindex="-1" aria-labelledby="alluserLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                      <h5 class="modal-title" id="alluserLabel">All users</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                      </div>
+                      <div class="modal-body">
+                      ...
+                      </div>
+                      <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      </div>
+                  </div>
+                  </div>
+              </div>
+
+              <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#adduser">
+                  Add user(s)
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="adduser" tabindex="-1" aria-labelledby="adduserLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                      <h5 class="modal-title" id="adduserLabel">Add user(s)</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                      </div>
+                      <div class="modal-body">
+                          <form action="/admin/add" method="post">
+                              <div class="form-group">
+                                  <label for="adduserform">Instruction right here</label>
+                                  <textarea class="textarea" id="adduserform" name="adduser"></textarea>
+                              </div>
+                              <button class="btn btn-success" type="submit">Add</button>
+                          </form>
+                      </div>
+                      <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      </div>
+                  </div>
+                  </div>
+              </div>
+
+              <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#deleteuser">
+                  Delete user(s)
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="deleteuser" tabindex="-1" aria-labelledby="deleteuserLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                      <h5 class="modal-title" id="deleteuserLabel">Delete user(s)</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                      </div>
+                      <div class="modal-body">
+                          <form action="/admin/delete" method="post">
+                              <div class="form-group">
+                                  <label for="deleteuserform">Instruction right here</label>
+                                  <textarea class="textarea" id="deleteuserform" name="deleteuser"></textarea>
+                              </div>
+                              <button class="btn btn-danger" type="submit">Delete</button>
+                          </form>
+                      </div>
+                      <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      </div>
+                  </div>
+                  </div>
+              </div>
+
+              <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#resetpassword">
+                  Reset user(s) password
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="resetpassword" tabindex="-1" aria-labelledby="resetpasswordLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                      <h5 class="modal-title" id="resetpasswordLabel">Reset user(s) password</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                      </div>
+                      <div class="modal-body">
+                          <form action="/admin/reset" method="post">
+                              <div class="form-group">
+                                  <label for="resetuserform">Instruction right here</label>
+                                  <textarea class="textarea" id="resetuserform" name="resetuser"></textarea>
+                              </div>
+                              <button class="btn btn-primary" type="submit">Reset</button>
+                          </form>
+                      </div>
+                      <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      </div>
+                  </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-12 admin-12">
+              <h3>Upload a problem</h3>
+              <form action="/admin/upload-problem" method="post" enctype="multipart/form-data">
+                  <div class="form-group">
+                      <label for="">Problem name</label>
+                    <input type="text" name="problemname" placeholder="Problem name" class="form-control">
+                    <br>
+                    <label>Set time limit each test (ms)</label>
+                    <input type="number" placeholder="Time limit (ms)" name="timeEachTest" min="1000" max="5000">
+                    <br>
+                    <label for="">Set score for each test</label>
+                    <input type="number" placeholder="Score each test" name="scoreEachTest">
+                    <br>
+                    <label for="">Upload problem file</label>
+                    <input type="file" class="form-control-file" id="problemform" name="problem">
+                    <br>                          
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                  </div>
+                </form>
+          </div>
+
+          <div class="col-12 admin-12">
+              <h3>Upload tests for a problem</h3>
+              <form action="/admin/upload-test" method="post" enctype="multipart/form-data">
+                  <div class="form-group">
+                      <label for="">Select problem</label>
+                      <select name="problemId" id="problemfortest" required>
+                          <% for( let i = 0; i < problems.length; i++ ) { %>
+                              <% if (problems[i].name) { %>
+                                  <option value=<%=problems[i]._id%>><%=problems[i].name%></option>
+                              <% } %>
+                              
+                          <% } %>
+                      </select>
+                      <br>
+                    <label for="problemform">Upload tests</label>
+                    <input type="file" class="form-control-file" id="problemform" name="tests" multiple>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                  </div>
+                </form>
+          </div>
+
+          <div class="col-12 admin-12">
+              <h3>Delete a problem</h3>
+              <form action="/admin/delete-problem" method="post">
+                  <select name="problemId" required>
+                      <% for( let i = 0; i < problems.length; i++ ) { %>
+                          <% if (problems[i].name) { %>
+                              <option value=<%=problems[i]._id%>><%=problems[i].name%></option>
+                          <% } %>
+                          
+                      <% } %>
+                  </select>
+                  <button class="btn btn-danger" type="submit">Delete</button>
+              </form>
+          </div>
+
+          <div class="col-12 admin-12">
+              <h3>See all problems and tests information</h3>
+              <ul>
+                  <% for( let i = 0; i < problems.length; i++ ) { %>
+                      <% if (problems[i].name) { %>
+                          <li>
+                              <a href="/admin/problem/<%=problems[i]._id %>"><%=problems[i].name%></a>
+                          </li>
+                      <% } %>
+                      
+                  <% } %>
+              </ul>
+          </div>
+
+          <div class="col-12 admin-12">
+              <h3>Show some tests of a problem (See info above to get the correct test filename)</h3>
+              <form action="/admin/show-test" method="post">
+                  <select name="problemId" required>
+                      <!-- <option value="volvo">Volvo</option>
+                      <option value="saab">Saab</option>
+                      <option value="mercedes">Mercedes</option>
+                      <option value="audi">Audi</option> -->
+                      <% for( let i = 0; i < problems.length; i++ ) { %>
+                          <% if (problems[i].name) { %>
+                              <option value=<%=problems[i]._id%>><%=problems[i].name%></option>
+                          <% } %>
+                          
+                      <% } %>
+                  </select>
+                  <input type="text" placeholder="Test filename to show" name="testfilename">
+                  <button class="btn btn-primary">Show test</button>
+              </form>
+          </div>
+
+          <div class="col-12 admin-12">
+              <h3>Delete some tests that are currently available (See tests in the home page to get the correct filename)</h3>
+              <form action="/admin/delete-test" method="post">
+                  <select name="problemId" required>
+                      <!-- <option value="volvo">Volvo</option>
+                      <option value="saab">Saab</option>
+                      <option value="mercedes">Mercedes</option>
+                      <option value="audi">Audi</option> -->
+                      <% for( let i = 0; i < problems.length; i++ ) { %>
+                          <% if (problems[i].name) { %>
+                              <option value=<%=problems[i]._id%>><%=problems[i].name%></option>
+                          <% } %>
+                          
+                      <% } %>
+                  </select>
+                  <input type="text" placeholder="Test filename to delete" name="testfilename">
+                  <button class="btn btn-danger">Delete test</button>
+              </form>
+          </div>
+
+          <div class="col-12 admin-12">
+              <h3>All problems will be shown in rank</h3>
+              <ul>
+                  <% for( let i = 0; i < rankproblems.length; i++ ) { %>
+                      <a href="/admin/problem/<%=rankproblems[i]._id %>"><%=rankproblems[i].name%></a>
+                  <% } %>
+              </ul>
+          </div>
+
+          <div class="col-12 admin-12">
+              <h3>Add problem to rank</h3>
+              <form action="/add-to-rank" method="post">
+                  <select name="problemId" >
+                      <% for( let i = 0; i < problems.length; i++ ) { %>
+                          <option value=<%=problems[i]._id%>><%=problems[i].name%></option>
+                      <% } %>
+                  </select>
+                  <button type="submit" class="btn btn-primary">Add</button>
+              </form>
+          </div>
+      </div>
+</div>
+
+<%- include('include/_footer') %>
+</body>
+</html>

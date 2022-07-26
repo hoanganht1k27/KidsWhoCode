@@ -4,12 +4,14 @@ const fs = require('fs')
 const path = require('path')
 const Rank = require('../models/Rank')
 
-updateProblemPath = async (problemId, path, name, timeEachTest, scoreEachTest) => {
+updateProblemPath = async (problemId, path, name, timeEachTest, scoreEachTest, contestid) => {
     let p = await Problem.findById(problemId)
     p.name = name
     p.path = path
     p.timeEachTest = timeEachTest
     p.scoreEachTest = scoreEachTest
+    p.contestId = contestid
+    p.sol = 1
 
     return p.save()
 }

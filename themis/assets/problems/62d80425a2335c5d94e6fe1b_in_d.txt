@@ -1,0 +1,2 @@
+Nhập vào 3 số a, b, c
+In ra tổng của 3 số

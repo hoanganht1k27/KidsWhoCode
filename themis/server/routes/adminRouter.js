@@ -10,45 +10,99 @@ const fs = require('fs')
 const {checkAdminAuthenticatedUser, addProblemToDB} = require('../services/middleware')
 const {processInputForAdd, processInputForDelete, processInputForReset} = require('../services/admin')
 const {addUsers, deleteUsers} = require('../controller/adminController')
+const {addContest, getAllContest} = require('../controller/contestController')
 const {getAllUsers} = require('../controller/userController')
 const {updateProblemPath, getAllProblems, makeDir, getProblemInfo, deleteProblem, addSettingToProblem, getAllRankProblems} = require('../services/problem')
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(process.env.UPLOAD_PROBLEM_DIR))
+        if(file.fieldname == 'problem') {
+            cb(null, path.join(process.env.BASE_DIR, process.env.UPLOAD_PROBLEM_DIR))
+        }
+        else {
+            // console.log(req.problemId)
+            let p = path.join(process.env.BASE_DIR, process.env.UPLOAD_TEST_DIR, req.problemId)
+            makeDir(p)
+            cb(null, p)
+        }
+        
     },
     filename: function (req, file, cb) {
-            cb(null, req.problemId + '_' + file.originalname)
+            console.log(file)
+            if(file.fieldname == 'problem') {
+                req.filename = req.problemId + '_' + file.originalname
+                cb(null, req.problemId + '_' + file.originalname)
+            }
+            if(file.fieldname == 'solution') {
+                req.solution = 1
+                cb(null, "sol.cpp")
+            }
+            if(file.fieldname == 'tests') {
+                req.tests = 1
+                cb(null, file.originalname)
+            }
+            return cb(new Error("Cannot upload file"))
     }
-});
+})
 
-const storage2 = multer.diskStorage({
-    destination: function (req, file, cb) {
-        let p = path.join(process.env.UPLOAD_TEST_DIR, req.body.problemId)
-        makeDir(p)
-        cb(null, p)
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname)
-    }
-});
-
-const upload = multer({storage: storage})
-const uploadTest = multer({storage: storage2})
+const uploadAll = multer({storage: storage}).fields([
+    {name: 'problem', maxCount: 1},
+    {name: 'solution', maxCount: 1},
+    {name: 'tests', maxCount: 200}
+]);
 
 route.get('/', checkAdminAuthenticatedUser, async (req, res) => {
-    let p = await getAllProblems()
-    let rp = await getAllRankProblems()
-    console.log(rp)
-    let r = []
-    if(rp) {
-        for(let i = 0; i < rp.length; i++) {
-            let p = await getProblem(rp[i])
-            r.push(p)
-        }
-    }
-    res.render('admin', {fullname: req.user.fullname, isAdmin: req.user.isAdmin, problems: p, rankproblems: r})
+    let contests = await getAllContest()
+    res.render('admin', {fullname: req.user.fullname, isAdmin: req.user.isAdmin, contests: contests})
 })
+
+route.post('/upload-contest', checkAdminAuthenticatedUser, async (req, res) => {
+    let { contestname, contestpassword, start } = req.body
+
+    addContest(contestname, contestpassword, start)
+        .then(() => {
+            req.flash('info', 'Add contest successfully')
+            res.redirect('/admin')
+        })
+        .catch((e) => {
+            req.flash('error', e.message)
+            res.redirect('/admin')
+        })
+    
+})
+
+route.use('/contest', checkAdminAuthenticatedUser, require('./contestRouter'))
+
+route.post('/upload-problem', checkAdminAuthenticatedUser, addProblemToDB, 
+    (req, res, next) => {
+        uploadAll(req, res, (err) => {
+            if(err) {
+                req.flash('error', 'Upload problem failed')
+                res.redirect('/admin')
+                return
+            } else {
+                return next()
+            }
+        })
+    },
+    (req, res) => {
+        if(req.filename && req.solution && req.tests)
+        updateProblemPath(req.problemId, req.filename, req.body.problemname, req.body.timeEachTest, req.body.scoreEachTest, req.body.contestid)
+        .then(() => {
+            addSettingToProblem(req.problemId, req.body.timeEachTest, req.body.scoreEachTest)
+            req.flash('info', 'Upload problem successfully')
+            res.redirect('/admin')
+        })
+        .catch((e) => {
+            console.log(e)
+            req.flash('error', 'Upload problem failed')
+            res.redirect('/admin')
+        })
+        else {
+            req.flash('error', 'Upload problem failed')
+            res.redirect('/admin')
+        }
+    })
 
 route.get('/allusers', checkAdminAuthenticatedUser, async (req, res) => {
     let r = await getAllUsers()
@@ -92,26 +146,6 @@ route.post('/reset', checkAdminAuthenticatedUser, async (req, res) => {
     let r = await resetUsers(arr)
 
     req.flash('info', 'Users reset successfully')
-    res.redirect('/admin')
-})
-
-route.post('/upload-problem', addProblemToDB, upload.single('problem'), async (req, res, next) => {
-    updateProblemPath(req.problemId, req.file.filename, req.body.problemname, req.body.timeEachTest, req.body.scoreEachTest)
-        .then(() => {
-            addSettingToProblem(req.problemId, req.body.timeEachTest, req.body.scoreEachTest)
-            req.flash('info', 'Upload problem successfully')
-            res.redirect('/admin')
-        })
-        .catch((e) => {
-            console.log(e)
-            req.flash('error', 'Upload problem failed')
-            res.redirect('/admin')
-        })
-    
-})
-
-route.post('/upload-test', uploadTest.array('tests', 30), (req, res) => {
-    req.flash('info', "Upload test successfully");
     res.redirect('/admin')
 })
 
