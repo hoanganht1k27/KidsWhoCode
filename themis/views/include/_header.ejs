@@ -36,12 +36,12 @@
                 <li>
                     <a href="/chat" class="navLink"><i class="fa-solid fa-comment"></i> Chat</a>
                 </li>
-                <li>
-                    <a href="/rank" class="navLink"><i class="fa-solid fa-ranking-star"></i> Rank</a>
-                </li>
-                <li>
-                    <a href="/contest" class="navLink"><i class="fa-solid fa-star"></i> Contest</a>
-                </li>
+                <% if (showContest == 2) { %>
+                    <li>
+                        <a href="/contests/<%=contest._id%>/rank" class="navLink"><i class="fa-solid fa-ranking-star"></i> Rank</a>
+                    </li>
+                <% } %>
+                
                 <% if (isAdmin) { %>
                 <li>
                     <a href="/admin" class="navLink"><i class="fa-solid fa-lock"></i> Admin</a>

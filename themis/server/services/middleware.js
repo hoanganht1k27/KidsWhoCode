@@ -43,7 +43,16 @@ addProblemToDB = async (req, res, next) => {
     return next()
 }
 
+checkContest = (req, res, next) => {
+    let contestId = req.params['id']
+    if(req.session.contestId && req.session.contestId == contestId) {
+        return next()
+    }
+    return res.redirect('/')
+}
+
 exports.checkAuthenticatedUser = checkAuthenticatedUser
 exports.checkNotAuthenticatedUser = checkNotAuthenticatedUser
 exports.checkAdminAuthenticatedUser = checkAdminAuthenticatedUser
 exports.addProblemToDB = addProblemToDB
+exports.checkContest = checkContest

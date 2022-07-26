@@ -28,19 +28,18 @@ const storage = multer.diskStorage({
         
     },
     filename: function (req, file, cb) {
-            console.log(file)
             if(file.fieldname == 'problem') {
                 req.filename = req.problemId + '_' + file.originalname
                 cb(null, req.problemId + '_' + file.originalname)
-            }
+            } else
             if(file.fieldname == 'solution') {
                 req.solution = 1
                 cb(null, "sol.cpp")
-            }
+            } else
             if(file.fieldname == 'tests') {
                 req.tests = 1
                 cb(null, file.originalname)
-            }
+            } else
             return cb(new Error("Cannot upload file"))
     }
 })
@@ -53,7 +52,7 @@ const uploadAll = multer({storage: storage}).fields([
 
 route.get('/', checkAdminAuthenticatedUser, async (req, res) => {
     let contests = await getAllContest()
-    res.render('admin', {fullname: req.user.fullname, isAdmin: req.user.isAdmin, contests: contests})
+    res.render('admin', {fullname: req.user.fullname, isAdmin: req.user.isAdmin, contests: contests, showContest: 0})
 })
 
 route.post('/upload-contest', checkAdminAuthenticatedUser, async (req, res) => {
@@ -72,6 +71,7 @@ route.post('/upload-contest', checkAdminAuthenticatedUser, async (req, res) => {
 })
 
 route.use('/contest', checkAdminAuthenticatedUser, require('./contestRouter'))
+route.use('/problem', checkAdminAuthenticatedUser, require('./problemRouter'))
 
 route.post('/upload-problem', checkAdminAuthenticatedUser, addProblemToDB, 
     (req, res, next) => {

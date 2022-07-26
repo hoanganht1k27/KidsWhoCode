@@ -26,10 +26,24 @@ makeDir = (dir) => {
         fs.mkdirSync(dir);
     }
 }
+  
+  function removeItemAll(arr, value) {
+    var i = 0;
+    while (i < arr.length) {
+      if (arr[i] === value) {
+        arr.splice(i, 1);
+      } else {
+        ++i;
+      }
+    }
+    return arr;
+  }
 
 getAllTestOfProblem = (problemId) => {
-    let p = path.join(process.env.UPLOAD_TEST_DIR, problemId)
+    let p = path.join(process.env.BASE_DIR,process.env.UPLOAD_TEST_DIR, problemId)
     files = fs.readdirSync(p)
+    files = removeItemAll(files, "setup.json")
+    files = removeItemAll(files, "sol.cpp")
     return files
 }
 
@@ -155,7 +169,6 @@ getScore = (userId, problemId) => {
     } catch {
     }
 
-    console.log(userId, problemId)
 
     let k = Object.keys(result)
     if(k.includes(problemId)) {
@@ -167,7 +180,7 @@ getScore = (userId, problemId) => {
             classOfScore: getClassOfScore(result[problemId].score, result[problemId].fullScore)
         }
     }
-    return {}
+    return null
 }
 
 addSettingToProblem = (problemId, timeEachTest, scoreEachTest) => {

@@ -270,9 +270,16 @@ def judge(toJudge):
         return
 
     timeLimit = settings['time']
-    compileSolFile(problemId)
+    checkSol = compileSolFile(problemId)
 
     results = []
+
+    if not checkSol:
+        results = ["Cannot compile solution file, please check solution file"]
+        putToResults(problemId, userId, statusCompile="Compile solution file error, please check solution again")
+        return
+
+    
 
     for inputFile in inputFiles:
         inputFilePath = './tests/' + problemId + '/' + inputFile
@@ -321,7 +328,6 @@ def judge(toJudge):
             })
     
     putToResults(problemId, userId, results)
-    judge = 0
     return results
 
 
@@ -334,8 +340,10 @@ def compileSolFile(problemId):
     kt = os.system(s)
     if kt == 0:
         print("Compile solution file succeed")
+        return 1
     else:
         print("Compile solution file error")
+        return 0
 
 
 def runSolFile(problemId):

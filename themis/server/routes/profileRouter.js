@@ -27,7 +27,7 @@ var upload = multer({
   }).single('avatar');
 
 route.get('/', (req, res) => {
-    res.render('profile', {fullname: req.user.fullname, isAdmin: req.user.isAdmin, avaurl: req.user.avaurl})
+    res.render('profile', {fullname: req.user.fullname, isAdmin: req.user.isAdmin, avaurl: req.user.avaurl, showContest: 0})
 })
 
 route.post('/change-ava', (req, res) => {

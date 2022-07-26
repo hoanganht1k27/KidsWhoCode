@@ -46,7 +46,14 @@
           </div>
 
           <div class="col-12 admin-12">
-
+                <h3>All problems in this contest</h3>
+                <ul>
+                    <% for( let i = 0; i < problems.length; i++ ) { %>
+                        <li>
+                            <a href="/admin/problem/<%=problems[i]._id%>"><%=problems[i].name%></a>
+                        </li>
+                    <% } %>
+                </ul>
           </div>
 
           

@@ -18,65 +18,84 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-7">
-                    <h2>Problems</h2>
-                    <ul class="problemsListContainer">
-                        <% for( let i = 0; i < problems.length; i++ ) { %>
-                            <li>
-                                <a target="_blank" href="/problems/<%=problems[i].path%>"><%=problems[i].name%> -- <%=problems[i].uploaded_at_nice%></a>
-                            </li>
-                        <% } %>
-                    </ul>
-
-                    <h2>Tests</h2>
-                    <ul class="problemsListContainer">
-                        <% for( let i = 0; i < showedtests.length; i++ ) { %>
-                            <% for( let j = 0; j < showedtests[i].testfiles.length; j++ ) { %>
+                <% if (showContest == 0) { %>
+                    <div class="col-md-7">
+                        <h2>Contests</h2>
+                        <ul class="problemsListContainer">
+                            <% for( let i = 0; i < contests.length; i++ ) { %>
                                 <li>
-                                    <a href="<%=showedtests[i].dir%>/<%=showedtests[i].problemId%>/<%=showedtests[i].testfiles[j]%>"><%=showedtests[i].problemName%> -- <%=showedtests[i].testfiles[j]%></a>
+                                    <% if (contests[i].created_at) { %>
+                                        <a href="/contests/<%=contests[i]._id%>"><%=contests[i].name%> --- <%=contests[i].created_at.toLocaleDateString()%></a>
+                                    <% } else { %>
+                                        <a href="/contests/<%=contests[i]._id%>"><%=contests[i].name%></a>
+                                    <% } %>
                                 </li>
                             <% } %>
-                        <% } %>
-                    </ul>
-                </div>
-                <div class="col-md-5">
-                    <h2>Submit</h2>
-                    <div class="submitContainer">
-                        <div class="codeEditContainer">
-                            <textarea name="codeEdit" id="codeEdit" class="codeEdit"></textarea>
-                            <form action="/submit/submit" class="submitFormContainer" method="post" enctype="multipart/form-data">
-                                <select name="problemId" id="problem">
-                                    <!-- <option value="123">Problem 1</option> -->
-                                    <% for( let i = 0; i < problems.length; i++ ) { %>
-                                        <option value="<%=problems[i]._id%>"><%=problems[i].name%></option>
-                                    <% } %>
-                                  </select>
-                                <input type="file" required name="submitfile">
-                                <input type="submit">
-                            </form>
-                        </div> 
-                        <div class="submittedContainer">
-                            <h4>Submitted</h4>
-                            <ul class="problemsListContainer submittedList">
-                                <!-- <li class="full_100">
-                                    Problem 1
-                                    <span class="score">100</span>
-                                </li> -->
-                                <% for( let i = 0; i < submittedProblems.length; i++ ) { %>
-                                    <li type="button" class="<%=submittedProblems[i].classOfScore%> submittedEach" problemId="<%=submittedProblems[i].problemId%>">
-                                        <%= submittedProblems[i].name %>
-
-                                        <span class="score"><%=submittedProblems[i].score%></span>
-                                    </li>
-
-                                    <div class="submittedLog" style="display: none;" problemName="<%=submittedProblems[i].name%>" problemId="<%=submittedProblems[i].problemId%>" status="<%=submittedProblems[i].status%>" score="<%=submittedProblems[i].score%>/<%=submittedProblems[i].fullScore%>">
-                                        <%=submittedProblems[i].logs%>
-                                    </div>
-                                <% } %>
-                            </ul>
-                        </div>                       
+                        </ul>
                     </div>
-                </div>
+                <% } else if(showContest == 1){ %>
+                    <div class="col-md-7">
+                        <form action="/contests/<%=contest._id%>" method="post">
+                            <div class="form-group">
+                                <h3>Enter password to join in contest: <%=contest.name%></h3>
+                                <input type="password" class="form-control" name="contestpassword" placeholder="Enter contest password">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Login to contests</button>
+                        </form>
+                    </div>
+                <% } else if(showContest == 2) { %>
+                    <div class="col-md-7">
+                        <h2>Welcome to contest <%=contest.name%></h2>
+                        <h3>All problems</h3>
+                        <ul class="problemsListContainer">
+                            <% for( let i = 0; i < problems.length; i++ ) { %>
+                                <li>
+                                    <a target="_blank" href="/contests/<%=contest._id%>/problem/<%=problems[i]._id%>"><%=problems[i].name%> -- <%=problems[i].uploaded_at_nice%></a>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-5">
+                        <h2>Submit problem</h2>
+                        <div class="submitContainer">
+                            <div class="codeEditContainer">
+                                <!-- <textarea name="codeEdit" id="codeEdit" class="codeEdit"></textarea> -->
+                                <h6>Remember to choose problem name before submit</h6>
+                                <form action="/submit/submit" class="submitFormContainer" method="post" enctype="multipart/form-data">
+                                    
+                                    <select name="problemId" id="problem">
+                                        <!-- <option value="123">Problem 1</option> -->
+                                        <% for( let i = 0; i < problems.length; i++ ) { %>
+                                            <option value="<%=problems[i]._id%>"><%=problems[i].name%></option>
+                                        <% } %>
+                                      </select>
+                                    <input type="file" required name="submitfile">
+                                    <input type="submit">
+                                </form>
+                            </div> 
+                            <div class="submittedContainer">
+                                <h4>Submitted</h4>
+                                <ul class="problemsListContainer submittedList">
+                                    <!-- <li class="full_100">
+                                        Problem 1
+                                        <span class="score">100</span>
+                                    </li> -->
+                                    <% for( let i = 0; i < submittedProblems.length; i++ ) { %>
+                                        <li type="button" class="<%=submittedProblems[i].classOfScore%> submittedEach" problemId="<%=submittedProblems[i].problemId%>">
+                                            <%= submittedProblems[i].name %>
+                                            <span class="score"><%=submittedProblems[i].score%></span>
+                                        </li>
+                                        <div class="submittedLog" style="display: none;" problemName="<%=submittedProblems[i].name%>" problemId="<%=submittedProblems[i].problemId%>" status="<%=submittedProblems[i].status%>" score="<%=submittedProblems[i].score%>/<%=submittedProblems[i].fullScore%>">
+                                            <%=submittedProblems[i].logs%>
+                                        </div>
+                                    <% } %>
+                                </ul>
+                            </div>                       
+                        </div>
+                    </div>
+                <% } %>
+                
             </div>
       </div>
 
@@ -106,6 +125,6 @@
   </div>
 
 <%- include('include/_footer') %>
-<script src="js/index.js"></script>
+<script src="/js/index.js"></script>
 </body>
 </html>

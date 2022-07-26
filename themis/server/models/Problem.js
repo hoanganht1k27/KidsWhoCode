@@ -2,7 +2,8 @@ const mongoose = require('mongoose')
 
 let schema = new mongoose.Schema({
     name: {
-        type: String
+        type: String,
+        unique: true
     },
     uploaded_at: {
         type: Date

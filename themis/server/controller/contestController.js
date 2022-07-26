@@ -13,7 +13,8 @@ addContest = async (contestname, contestpassword, start) => {
     let c = new Contest({
         name: contestname,
         password: hashContestPassword,
-        start: start
+        start: start,
+        created_at: Date.now()
     })
     
     return c.save()

@@ -1,13 +1,15 @@
 const express = require('express')
-const { getContestById, deleteContestById } = require('../controller/contestController')
+const { getContestById, deleteContestById, getAllProblemsOfContest } = require('../controller/contestController')
 const { comparePassword, hashPassword } = require('../services/password')
 const route = express.Router()
 
 route.get('/:id', async (req, res) => {
     let contestId = req.params['id']
     let c = await getContestById(contestId)
+    let p = await getAllProblemsOfContest(contestId)
+    // console.log(p)
     if(c) {
-        res.render('contest', {fullname: req.user.fullname, isAdmin: req.user.isAdmin, contest: c})
+        res.render('contest', {fullname: req.user.fullname, isAdmin: req.user.isAdmin, contest: c, problems: p, showContest: 0})
     } else {
         req.flash('error', "No contest with that id")
         res.redirect('/admin')

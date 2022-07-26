@@ -1,19 +1,36 @@
 <%- include('include/_header') %>
 
       <div class="container">
-        <h1>Ranking</h1>
+        <h1>Ranking of contest: <%=contest.name%></h1>
       <div class="rankContainer">
         <table>
-          <!-- <tr>
+          <tr>
             <th>Rank</th>
             <th>Name</th>
             <th>Sum</th>
-            <th>Problem1</th>
-            <th>Problem1</th>
-            <th>Problem1</th>
-            <th>Problem1</th>
+            <% for( let i = 0; i < problems.length; i++ ) { %>
+              <th><%=problems[i].name%></th>
+            <% } %>
           </tr>
           <tr>
+            <% let r = 0 %>
+            <% for( let i = 0; i < sortedSum.length; i++ ) { %>
+              <% let id = sortedSum[i][0] %>
+              <% let fullname = username[id] %>
+              <% r += 1 %>
+              <td><%=r%></td>
+              <td><%=fullname%></td>
+              <td><%=sortedSum[i][1]%></td>
+              <% for( let j = 0; j < problems.length; j++ ) { %>
+                <% if (rank[id][problems[j]._id]) { %>
+                  <td class="<%=rank[id][problems[j]._id].classOfScore%>"><%=rank[id][problems[j]._id].score%></td>
+                <% } else { %>
+                    <td></td>
+                  <% } %>
+              <% } %>
+            <% } %>
+          </tr>
+          <!-- <tr>
             <td>Jill</td>
             <td>Smith</td>
             <td>50</td>
@@ -63,6 +80,6 @@
       </div>
 
       <%- include('include/_footer') %>
-      <script src="js/rank.js"></script>
+      <!-- <script src="/js/rank.js"></script> -->
     </body>
 </html>

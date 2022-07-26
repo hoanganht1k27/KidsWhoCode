@@ -35,11 +35,11 @@ route.post('/submit', (req, res) => {
     upload(req, res, function(err) {
         if(err) {
             req.flash('error', err.message)
-            res.redirect('/')
+            res.redirect('/contests/' + req.session.contestId)
             return
         }
         req.flash('info', 'Submit file successfully')
-        res.redirect('/')
+        res.redirect('/contests/' + req.session.contestId)
     })
 })
 

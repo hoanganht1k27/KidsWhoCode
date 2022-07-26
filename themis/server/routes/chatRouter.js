@@ -5,7 +5,7 @@ const route = express.Router()
 
 route.get('/', async (req, res) => {
     let messages = await getAllMessages()
-    res.render('chat', {messages: messages, fullname: req.user.fullname, isAdmin: req.user.isAdmin, avaurl: req.user.avaurl, userid: req.user._id, username: req.user.username})
+    res.render('chat', {messages: messages, fullname: req.user.fullname, isAdmin: req.user.isAdmin, avaurl: req.user.avaurl, userid: req.user._id, username: req.user.username, showContest: 0})
 })
 
 route.post('/add-message', (req, res) => {
