@@ -98,4 +98,27 @@ In contest detail, all problems in that contest will be shown, you can update pr
 <img src="https://github.com/hoanganht1k27/KidsWhoCode/blob/main/images/problem_delete.png">
 
 
+### User guide
+#### Join into a contest
+User can join into a contest if have the correct password and that contest is starting
+
+<img src="https://github.com/hoanganht1k27/KidsWhoCode/blob/main/images/user_contest.png">
+<img src="https://github.com/hoanganht1k27/KidsWhoCode/blob/main/images/user_enter_contest.png">
+
+#### Submit problem to joined contest
+Before submit problem, remember to choose the correct problem in that contest
+
+#### See the result, log and ranking
+Everyone who has joined into a contest can see the ranking in that contest, each user can see their own submitted problem's results.
+
+### Chat feature
+Everyone can also chat and talk to each other via public chatbox, it will be very usefull when some problems need to be discussed and teacher can send some notifications to students.
+
+<img src="https://github.com/hoanganht1k27/KidsWhoCode/blob/main/images/chat.png">
+
+### Profile manage
+Everyone can also manage their own profile, change password, change avatar picture, ...
+
+<img src="https://github.com/hoanganht1k27/KidsWhoCode/blob/main/images/profile.png">
+
 
