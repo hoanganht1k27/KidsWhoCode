@@ -1,0 +1,74 @@
+
+<%- include('include/_header') %>
+
+<!-- Home -->
+<div class="container home">
+      <div class="row">
+          <div class="col-12 admin-12">
+              <div class="errorContainer">
+                  <% if (messages.error) { %>
+                      <p><%= messages.error %></p>
+                  <% } %>
+              </div>
+
+              <div class="infoContainer">
+                  <% if (messages.info) { %>
+                      <p><%= messages.info %></p>
+                  <% } %>
+              </div>
+          </div>
+
+          <div class="col-12 admin-12">
+            <h3>Problem <%=problem.name%></h3>
+            <form action="/admin/problem/update-problem" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                  <input type="hidden" value="<%=problem._id%>" name="problemid">
+                  <h4>Set time limit each test (ms)</h4>
+                  <input type="number" placeholder="Time limit (ms)" name="timeEachTest" min="1000" max="5000" value="<%=problem.timeEachTest%>" required>
+                  <br>
+                  <br>
+                  <h4 for="">Set score for each test</h4>
+                  <input type="number" placeholder="Score each test" name="scoreEachTest" value="<%=problem.scoreEachTest%>" required>
+                  <br>
+                  <br>
+                  <h4>Current problem file</h4>
+                  <a href="/admin/problem/<%=problem._id%>/problem/<%=problem.path%>" target="_blank"><%=problem.path%></a>
+                  <br>
+                  <h4 for="">Change problem file</h4>
+                  <input type="file" class="form-control-file" name="problem">
+                  <br>
+                  <br> 
+                  <h4>Current solution file</h4>
+                  <a href="/admin/problem/<%=problem._id%>/solution/sol.cpp" target="_blank">Sol.cpp</a>
+                  <br>
+                  <h4 for="">Change problem solution file</h4>
+                  <input type="file" class="form-control-file" name="solution">
+                  <br>
+                  <br> 
+                  <h4>All current tests</h4>
+                  <ul>
+                    <% for( let i = 0; i < tests.length; i++ ) { %>
+                        <li>
+                            <a href="/admin/problem/<%=problem._id%>/tests/<%=tests[i]%>" target="_blank"><%=tests[i]%></a>
+                            <button class="btn btn-danger deleteTest" type="button">Delete test</button>
+                        </li>
+                        <br>
+                    <% } %>
+                  </ul>
+                  <h4 for="">Upload new tests for this problem</h4>  
+                  <input type="file" class="form-control-file" name="tests" multiple>
+                  <br>
+                  <br>
+                  <button type="submit" class="btn btn-primary">Update problem</button>
+                </div>
+              </form>
+        </div>
+
+          
+      </div>
+</div>
+
+<%- include('include/_footer') %>
+<script src="/js/problem.js"></script>
+</body>
+</html>

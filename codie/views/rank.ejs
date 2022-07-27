@@ -1,0 +1,85 @@
+<%- include('include/_header') %>
+
+      <div class="container">
+        <h1>Ranking of contest: <%=contest.name%></h1>
+      <div class="rankContainer">
+        <table>
+          <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Sum</th>
+            <% for( let i = 0; i < problems.length; i++ ) { %>
+              <th><%=problems[i].name%></th>
+            <% } %>
+          </tr>
+            <% let r = 0 %>
+            <% for( let i = 0; i < sortedSum.length; i++ ) { %>
+              <tr>
+              <% let id = sortedSum[i][0] %>
+              <% let fullname = username[id] %>
+              <% r += 1 %>
+              <td><%=r%></td>
+              <td><%=fullname%></td>
+              <td><%=sortedSum[i][1]%></td>
+              <% for( let j = 0; j < problems.length; j++ ) { %>
+                <% if (rank[id][problems[j]._id]) { %>
+                  <td class="<%=rank[id][problems[j]._id].classOfScore%>"><%=rank[id][problems[j]._id].score%></td>
+                <% } else { %>
+                    <td></td>
+                  <% } %>
+              <% } %>
+              </tr>
+            <% } %>
+          <!-- <tr>
+            <td>Jill</td>
+            <td>Smith</td>
+            <td>50</td>
+            <td class="full_100">50</td>
+            <td class="full_70">50</td>
+            <td class="full_0">50</td>
+            <td class="full_0">50</td>
+            <td class="full_50">50</td>
+            <td class="full_70">50</td>
+            <td class="full_100">50</td>
+            <td class="full_100">50</td>
+            <td>50</td>
+          </tr>
+          <tr>
+            <td>Eve</td>
+            <td>Jackson</td>
+            <td>94</td>
+            <td>94</td>
+            <td>94</td>
+            <td>94</td>
+            <td>94</td>
+            <td>94</td>
+            <td>94</td>
+            <td>94</td>
+            <td>94</td>
+            <td>94</td>
+          </tr>
+          <tr>
+            <td>Adam</td>
+            <td>Johnson</td>
+            <td>67</td>
+            <td>67</td>
+            <td>67</td>
+            <td>67</td>
+            <td>67</td>
+            <td>67</td>
+            <td>67</td>
+            <td>67</td>
+            <td>67</td>
+            <td>67</td>
+          </tr> -->
+          <tbody>
+            
+          </tbody>
+        </table>
+      </div>
+      </div>
+
+      <%- include('include/_footer') %>
+      <!-- <script src="/js/rank.js"></script> -->
+    </body>
+</html>

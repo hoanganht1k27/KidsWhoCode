@@ -1,0 +1,65 @@
+
+<%- include('include/_header') %>
+
+<!-- Home -->
+<div class="container home">
+      <div class="row">
+          <div class="col-12 admin-12">
+              <div class="errorContainer">
+                  <% if (messages.error) { %>
+                      <p><%= messages.error %></p>
+                  <% } %>
+              </div>
+
+              <div class="infoContainer">
+                  <% if (messages.info) { %>
+                      <p><%= messages.info %></p>
+                  <% } %>
+              </div>
+          </div>
+          <div class="col-12 admin-12">
+              <h3>Contest name: <%=contest.name%></h3>
+              <form action="/admin/contest/edit-contest" method="post">
+                  <div class="form-group">
+                    <label for="">Contest new password</label>
+                    <input type="password" name="contestnewpassword" placeholder="Contest new password" class="form-control">
+                    <br>
+                    <label for="">Contest new password confirm</label>
+                    <input type="password" name="contestnewpasswordconfirm" placeholder="Contest new password confirm" class="form-control">
+                    <br>
+                    <input type="radio" name="start" value="1" required>
+                    <label for="">Start</label>
+                    <br>
+                    <input type="radio" name="start" value="0" required>
+                    <label for="">Stop</label>
+                    <br>
+                    <input type="hidden" value="<%=contest._id%>" name="contestid">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                  </div>
+              </form>
+
+              <h3>Delete contest: <%=contest.name%></h3>
+              <form action="/admin/contest/delete-contest" method="post">
+                <input type="hidden" value="<%=contest._id%>" name="contestid">
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+          </div>
+
+          <div class="col-12 admin-12">
+                <h3>All problems in this contest</h3>
+                <ul>
+                    <% for( let i = 0; i < problems.length; i++ ) { %>
+                        <li>
+                            <a href="/admin/problem/<%=problems[i]._id%>"><%=problems[i].name%></a>
+                        </li>
+                    <% } %>
+                </ul>
+          </div>
+
+          
+      </div>
+</div>
+
+<%- include('include/_footer') %>
+</body>
+</html>

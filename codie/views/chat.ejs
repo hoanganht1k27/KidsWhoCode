@@ -1,0 +1,41 @@
+<%- include('include/_header') %>
+
+      <div class="container allChatContainer">
+        <div class="chatContainer" userid="<%=userid%>" username="<%=username%>" avaurl="<%=avaurl%>">
+            <% for( let i = 0; i < messages.length; i++ ) { %>
+                <% if (messages[i].userid == userid) { %>
+                    <div class="message">
+                        <div class="messageContainer mine">
+                            <div class="messageContentMe">
+                                <p><%=messages[i].message%></p>
+                            </div>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <div class="message">
+                        <div class="messageContainer everyone">
+                            <div class="avaContainer">
+                                <img src="images/<%=messages[i].avaurl%>" class="avatar" alt="">
+                            </div>
+                            <div class="messageContent">
+                                <b><%= messages[i].username %></b>
+                                <p><%= messages[i].message %></p>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            <% } %>
+        </div>
+
+        <div class="chatInputContainer">
+            <div class="messageForm">
+                <input type="text" class="messageInput" placeholder="Enter message here">
+                <button type="submit" class="messageSubmit">Send</button>
+            </div>
+        </div>
+      </div>
+    <%- include('include/_footer')%>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/chat.js"></script>
+</body>
+</html>
