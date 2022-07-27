@@ -59,7 +59,7 @@ img
 #### Admin page
 You can only access admin page if you have admin role
 
-img
+<img src="https://github.com/hoanganht1k27/KidsWhoCode/blob/main/images/admin_page.png" >
 
 ##### Control all user
 With admin acount, you can add, delete, reset, ... all users
@@ -70,15 +70,15 @@ You can add a contest
 
 A contest will have name, password and start/stop state
 
-img
+<img src="https://github.com/hoanganht1k27/KidsWhoCode/blob/main/images/admin_contest.png">
 
 Here is list of all contests
 
-img
+<img src="https://github.com/hoanganht1k27/KidsWhoCode/blob/main/images/admin_allcontest.png">
 ##### Add problem to contest
 After adding contest, you can add problem to existing contest, problem can only be added to existing contest
 
-img
+<img src="https://github.com/hoanganht1k27/KidsWhoCode/blob/main/images/admin_problem.png">
 
 Currently judge system only available with g++ compile so solution file will be cpp file only
 
@@ -86,6 +86,16 @@ Tests for problem can be multiple files and max number of tests is <b>200</b>
 
 <b>Remember you have to set time and score for each test when adding a problem</b>
 
+##### Contest detail
+You can see contest detail and update or delete contest
+
+<img src="https://github.com/hoanganht1k27/KidsWhoCode/blob/main/images/contest_detail.png">
+
+##### Problem detail
+In contest detail, all problems in that contest will be shown, you can update problem detail like change solution file, delete tests, add new tests
+
+<img src="https://github.com/hoanganht1k27/KidsWhoCode/blob/main/images/problem_detail.png">
+<img src="https://github.com/hoanganht1k27/KidsWhoCode/blob/main/images/problem_delete.png">
 
 
 
